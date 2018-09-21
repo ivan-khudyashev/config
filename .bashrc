@@ -116,6 +116,16 @@ if ! shopt -oq posix; then
   fi
 fi
 #
+#### User tuning ####
+# ANTLR4 config
+CLASSPATH=".:/usr/local/lib/antlr-4.6-complete.jar:$CLASSPATH"
+alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
+alias antlrjavac='javac -cp /usr/local/lib/antlr-4.6-complete.jar'
+alias antlrpython='antlr4 -Dlanguage=Python2'
+alias grun='java -cp $CLASSPATH org.antlr.v4.gui.TestRig'
+
+PYTHONPATH='$PYTHONPATH:`pwd`'
+
 # Path variables
 # GCC
 ## For search libraries files
