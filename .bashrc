@@ -118,11 +118,13 @@ fi
 #
 #### User tuning ####
 # ANTLR4 config
-CLASSPATH=".:/usr/local/lib/antlr-4.6-complete.jar:$CLASSPATH"
-alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
-alias antlrjavac='javac -cp /usr/local/lib/antlr-4.6-complete.jar'
-alias antlrpython='antlr4 -Dlanguage=Python2'
-alias grun='java -cp $CLASSPATH org.antlr.v4.gui.TestRig'
+if [ -f /usr/local/lib/antlr-4.6-complete.jar ]; then
+    CLASSPATH=".:/usr/local/lib/antlr-4.6-complete.jar:$CLASSPATH"
+    alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
+    alias antlrjavac='javac -cp /usr/local/lib/antlr-4.6-complete.jar'
+    alias antlrpython='antlr4 -Dlanguage=Python2'
+    alias grun='java -cp $CLASSPATH org.antlr.v4.gui.TestRig'
+fi
 
 PYTHONPATH='$PYTHONPATH:`pwd`'
 
@@ -134,3 +136,6 @@ export LIBRARY_PATH="$LIBRARY_PATH:/usr/lib:/usr/lib/lua5.1"
 export CPATH="$CPATH:/usr/include:/usr/include/lua5.1"
 # Dynamic Library path
 export LD_LIBRARY_PATH="$LIBRARY_PATH"
+
+# LuaRocks options
+hash luarocks 2>/dev/null && eval `luarocks path`

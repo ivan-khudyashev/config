@@ -3,8 +3,11 @@
     email = bahek1983@gmail.com
 [core]
     editor = vim
+[credential]
+    helper = cache --timeout=1800
 [alias]
     st = status -s
+    last = log -1 HEAD
     logtree = log --all --decorate --oneline --graph
     loginfo = log --all --decorate --pretty=format:'%h.%an.%ad - %s' --oneline
 [color]
