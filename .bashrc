@@ -129,7 +129,8 @@ fi
 
 # Python config
 ## Used in deep-tree project ??
-PYTHONPATH='$PYTHONPATH:`pwd`'
+## TODO: find for what this command
+## PYTHONPATH="${PYTHONPATH}:`pwd`"
 ## pyenv config
 if [ -d ${HOME}/.pyenv ]
 then
