@@ -129,17 +129,23 @@ fi
 PYTHONPATH='$PYTHONPATH:`pwd`'
 
 # Path variables
-# GCC
-## For search libraries files
+## Add RE/flex utility in OS environment
+if [ -d ${HOME}/tools/reflex/bin ]
+then
+    export PATH="$PATH:${HOME}/tools/reflex/bin"
+fi
+
+## GCC
+### For search libraries files
 if [ ! -d ${HOME}/ld_libs ]
 then
     mkdir ${HOME}/ld_libs
 fi
 export LIBRARY_PATH="$LIBRARY_PATH:/usr/lib:/usr/lib/lua5.1:${HOME}/ld_libs"
-## For search Headers files
+### For search Headers files
 export CPATH="$CPATH:/usr/include:/usr/include/lua5.1"
-# Dynamic Library path
+## Dynamic Library path
 export LD_LIBRARY_PATH="$LIBRARY_PATH"
 
-# LuaRocks options
+## LuaRocks options
 hash luarocks 2>/dev/null && eval `luarocks path`
