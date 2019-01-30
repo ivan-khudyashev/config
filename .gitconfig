@@ -12,5 +12,3 @@
     loginfo = log --all --decorate --pretty=format:'%h.%an.%ad - %s' --oneline
 [color]
     ui = true
-[http]
-    sslcainfo = C:\\Program Files\\Git\\mingw64\\ssl\\certs\\ca-bundle.trust.crt
