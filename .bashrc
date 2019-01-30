@@ -131,7 +131,11 @@ PYTHONPATH='$PYTHONPATH:`pwd`'
 # Path variables
 # GCC
 ## For search libraries files
-export LIBRARY_PATH="$LIBRARY_PATH:/usr/lib:/usr/lib/lua5.1"
+if [ ! -d ${HOME}/ld_libs ]
+then
+    mkdir ${HOME}/ld_libs
+fi
+export LIBRARY_PATH="$LIBRARY_PATH:/usr/lib:/usr/lib/lua5.1:${HOME}/ld_libs"
 ## For search Headers files
 export CPATH="$CPATH:/usr/include:/usr/include/lua5.1"
 # Dynamic Library path
