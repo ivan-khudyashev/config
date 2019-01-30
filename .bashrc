@@ -118,34 +118,83 @@ fi
 #
 #### User tuning ####
 # ANTLR4 config
-if [ -f /usr/local/lib/antlr-4.6-complete.jar ]; then
-    CLASSPATH=".:/usr/local/lib/antlr-4.6-complete.jar:$CLASSPATH"
-    alias antlr4='java -jar /usr/local/lib/antlr-4.6-complete.jar'
-    alias antlrjavac='javac -cp /usr/local/lib/antlr-4.6-complete.jar'
+ANTLR4_VER="4.7"
+if [ -f /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar ]; then
+    CLASSPATH=".:/usr/local/lib/antlr-${ANTLR4_VER}-complete.jar:$CLASSPATH"
+    alias antlr4="java -jar /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar"
+    alias antlrjavac="javac -cp /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar"
     alias antlrpython='antlr4 -Dlanguage=Python2'
     alias grun='java -cp $CLASSPATH org.antlr.v4.gui.TestRig'
 fi
 
+# Python config
+## Used in deep-tree project ??
 PYTHONPATH='$PYTHONPATH:`pwd`'
+## pyenv config
+if [ -d ${HOME}/.pyenv ]
+then
+    export PYENV_ROOT="${HOME}/.pyenv"
+    export PATH="${PYENV_ROOT}/bin:${PATH}"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    alias python3.6='python'
+fi
 
 # Path variables
+## Java PATH's
+if [ -d /usr/lib/jvm/java-1.8.0-openjdk-amd64 ]
+then
+    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+    export PATH="${JAVA_HOME}/bin:${PATH}"
+fi
+
+## Gradle (for Kotlin-projects)
+if [ -d /opt/gradle/gradle-4.0.1 ]
+then
+    export PATH="${PATH}:/opt/gradle/gradle-4.0.1/bin"
+fi
+
 ## Add RE/flex utility in OS environment
 if [ -d ${HOME}/tools/reflex/bin ]
 then
-    export PATH="$PATH:${HOME}/tools/reflex/bin"
+    export PATH="${PATH}:${HOME}/tools/reflex/bin"
 fi
 
 ## GCC
 ### For search libraries files
-if [ ! -d ${HOME}/ld_libs ]
+LD_LIBS_NAME="ld_libs"
+if [ ! -d ${HOME}/${LD_LIBS_NAME} ]
 then
-    mkdir ${HOME}/ld_libs
+    mkdir ${HOME}/${LD_LIBS_NAME}
 fi
-export LIBRARY_PATH="$LIBRARY_PATH:/usr/lib:/usr/lib/lua5.1:${HOME}/ld_libs"
-### For search Headers files
-export CPATH="$CPATH:/usr/include:/usr/include/lua5.1"
-## Dynamic Library path
-export LD_LIBRARY_PATH="$LIBRARY_PATH"
+export LIBRARY_PATH="${LIBRARY_PATH}:${HOME}/${LD_LIBS_NAME}"
 
-## LuaRocks options
-hash luarocks 2>/dev/null && eval `luarocks path`
+### LUA-C
+LUA_VERSION="5.1"
+if [ -d /usr/lib/lua${LUA_VERSION} ]
+then
+    export LIBRARY_PATH="${LIBRARY_PATH}:/usr/lib:/usr/lib/lua${LUA_VERSION}"
+    export CPATH="${CPATH}:/usr/include:/usr/include/lua${LUA_VERSION}"
+fi
+
+## OpenResty & nginx
+if [ -d /usr/local/openresty ]
+then
+    export PATH="${PATH}:/usr/local/openresty/bin:/usr/local/openresty/nginx/sbin"
+fi
+
+## Dynamic Library path
+export LD_LIBRARY_PATH="${LIBRARY_PATH}"
+
+# LuaRocks options
+if [ -f /usr/local/bin/luarocks ]
+then
+    hash luarocks 2>/dev/null && eval `luarocks path`
+fi
+
+# Fix for SDKMAN. MUST BE AT THE END OF THE FILE!!!
+if [ -d ${HOME}/.sdkman ]
+then
+    export SDKMAN_DIR="${HOME}/.sdkman"
+    [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
+fi
