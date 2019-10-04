@@ -146,7 +146,7 @@ fi
 if [ -d /usr/lib/jvm/java-1.8.0-openjdk-amd64 ]
 then
     export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-    export PATH="${JAVA_HOME}/bin:${PATH}"
+    export PATH="${PATH}:${JAVA_HOME}/bin"
 fi
 
 ## Gradle (for Kotlin-projects)
@@ -191,6 +191,12 @@ export LD_LIBRARY_PATH="${LIBRARY_PATH}"
 if [ -f /usr/local/bin/luarocks ]
 then
     hash luarocks 2>/dev/null && eval `luarocks path`
+fi
+
+# Node.js options
+if [ -d /usr/local/lib/nodejs ]
+then
+    export PATH="${PATH}:/usr/local/lib/nodejs/bin"
 fi
 
 # Fix for SDKMAN. MUST BE AT THE END OF THE FILE!!!
