@@ -118,13 +118,20 @@ fi
 #
 #### User tuning ####
 # ANTLR4 config
-ANTLR4_VER="4.7"
+ANTLR4_VER="4.7.2"
+ANTLR4_JAR_FILE="/usr/local/lib/antlr-${ANTLR4_VER}-complete.jar"
 if [ -f /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar ]; then
-    CLASSPATH=".:/usr/local/lib/antlr-${ANTLR4_VER}-complete.jar:$CLASSPATH"
-    alias antlr4="java -jar /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar"
-    alias antlrjavac="javac -cp /usr/local/lib/antlr-${ANTLR4_VER}-complete.jar"
+    if [ -z "${CLASSPATH}" ]
+    then
+        CLASSPATH=".:${ANTLR4_JAR_FILE}"
+    else
+        CLASSPATH=".:${CLASSPATH}:${ANTLR4_JAR_FILE}"
+    fi
+    alias antlr4="java -jar ${ANTLR4_JAR_FILE}"
     alias antlrpython='antlr4 -Dlanguage=Python2'
-    alias grun='java -cp $CLASSPATH org.antlr.v4.gui.TestRig'
+    alias antlrjs='antlr4 -Dlanguage=JavaScript'
+    alias antlrjavac="javac -cp ${ANTLR4_JAR_FILE}"
+    alias grun='java -Xmx250M -cp "${CLASSPATH}" org.antlr.v4.gui.TestRig'
 fi
 
 # Python config
